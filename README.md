@@ -4,25 +4,19 @@ google-webfont-loader
 See the [component page](http://polymerlabs.github.io/google-webfont-loader) for more information.
 
 ## Getting Started
+Add it via bower
+  "dependencies": {
+    "webfontloader": "typekit/webfontloader#~0.0.1"
+  }
+  
 
-We've put together a [guide to google-webfont-loader](http://www.polymer-project.org/docs/start/reusableelements.html) to help get you rolling.
+## Using
+ <google-webfont-loader fonts="Droid Sans,Droid Serif"></google-webfont-loader>
 
-## Testing Your Element
-
-Add the logic specific to your new element and verify its functionality. Good unit tests are essential to your verification plan but a good way to quickly sanity test your component is to access your demo.html file via a local web server. There are several ways to do this but one easy method is to run a simple web server that ships with Python, using the commands:
-
-```sh
-python -m SimpleHTTPServer
-```
-
-Or other method using NodeJS:
-
-```sh
-http-server ./
-```
-
-This starts a web server on port 8000, so you can test your new element by navigating a browser to `localhost:8000/test/index.html`.
-
+    document.querySelector('google-webfont-loader').addEventListener('fonts-active', function(e) {
+        console.log('fonts-active', e.detail.fonts);
+    });
+    
 ### web-component-tester
 
 The tests are also compatible with [web-component-tester](https://github.com/Polymer/web-component-tester). You can run them on multiple local browsers via:

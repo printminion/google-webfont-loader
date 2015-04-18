@@ -21,19 +21,23 @@
 
   <p>An example of using <code>&lt;google-webfont-loader&gt;</code>:</p>
 
-  <google-webfont-loader on-fonts-active="{{onWebFontsActive}}" on-font-active="{{onWebFontActive}}" fonts="Droid Sans, Oswald, Lobster"></google-webfont-loader>
+  <google-webfont-loader fonts="Droid Sans, Oswald, Lobster"></google-webfont-loader>
 
-  <p style="font-family: Droid Sans, sans-serif;">Droid Sans</p>
-  <p style="font-family: Oswald, sans-serif;">Oswald</p>
-  <p style="font-family: Lobster, sans-serif;">Lobster</p>
+  <p id="Droid-Sans" style="font-family: Droid Sans, sans-serif;">Droid Sans</p>
+  <p id="Oswald" style="font-family: Oswald, sans-serif;">Oswald</p>
+  <p id="Lobster" style="font-family: Lobster, sans-serif;">Lobster</p>
 <script>
-    function onWebFontsActive(event, detail, sender) {
-        console.log('onWebFontsActive');
-    }
 
-    function onWebFontActive(event, detail, sender) {
-        console.log('onWebFontActive');
-    }
+    document.querySelector('google-webfont-loader').addEventListener('fonts-active', function(e) {
+        console.log('fonts-active', e.detail.fonts);
+    });
+
+    document.querySelector('google-webfont-loader').addEventListener('font-active', function(e) {
+        console.log('font-active', e.detail.font);
+        var o = document.querySelector('#' + e.detail.font.replace(/[\s]+/, '-'));
+        o.innerHTML = o.innerHTML + ' - font is active';
+
+    });
 </script>
 </body>
 </html>

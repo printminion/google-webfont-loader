@@ -25,16 +25,16 @@ Element providing google font loading functionality and throws an event after al
 <polymer-element name="google-webfont-loader" attributes="fonts">
     <script>
 
-        Polymer({
+        Polymer('google-webfont-loader', {
 
             /**
-             * Fired when the API library is loaded and available.
+             * Fired when all fonts are loaded and available.
              * @event fonts-active
              */
             fontsActiveEvent: 'fonts-active',
 
             /**
-             * Fired when the API library is loaded and available.
+             * Fired when particular font is loaded and available.
              * @event font-active
              */
             fontActiveEvent: 'font-active',
@@ -60,7 +60,7 @@ Element providing google font loading functionality and throws an event after al
                     active: function () {
                         console.log('WebFont', ' active');
                         this.fontsActive = true;
-                        this.fire(this.fontsActiveEvent);
+                        this.fire(this.fontsActiveEvent, {fonts: this.fonts});
 
                     }.bind(this),
                     loading: function () {
@@ -68,7 +68,7 @@ Element providing google font loading functionality and throws an event after al
                     },
                     fontactive: function (fontactive, fvd) {
                         console.log('WebFont', 'fontactive', fontactive);
-                        this.fire(this.fontActiveEvent, fontactive);
+                        this.fire(this.fontActiveEvent, {font: fontactive});
                     }.bind(this),
                     google: {
                         families: this.fonts
