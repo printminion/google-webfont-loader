@@ -1,12 +1,12 @@
 google-webfont-loader
 ============
 
-See the [component page](http://polymerlabs.github.io/google-webfont-loader) for more information.
+See the [component page](http://russenreaktor.github.io/google-webfont-loader) for more information.
 
 ## Getting Started
 Add it via bower
   "dependencies": {
-    "webfontloader": "typekit/webfontloader#~0.0.1"
+    "google-webfont-loader": "git@github.com:russenreaktor/google-webfont-loader.git#~0.0.2"
   }
   
 
