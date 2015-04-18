@@ -1,0 +1,33 @@
+{
+  "name": "google-webfont-loader",
+  "version": "0.0.1",
+  "authors": [
+    "Misha M.-Kupriyanov <m.kupriyanov@gmail.com>"
+  ],
+  "description": "Element providing solution for catching google webfonts active (loaded) event",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "seed"
+  ],
+  "main": "google-webfont-loader.html",
+  "license": "MIT",
+  "homepage": "https://github.com/russenreaktor/google-webfont-loader/",
+  "ignore": [
+    "**/.*",
+    "/tests/",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "core-elements": "Polymer/core-elements#~0.5.5",
+    "paper-elements": "Polymer/paper-elements#~0.5.5",
+    "webfontloader": "typekit/webfontloader#~1.5.18"
+  },
+  "devDependencies": {
+    "web-component-tester": "*"
+  }
+}
