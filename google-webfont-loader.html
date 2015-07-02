@@ -8,142 +8,154 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../polymer/polymer.html">
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
 
 <!--
-An element providing a solution to no problem in particular.
+Element providing google font loading functionality and throws an "fonts-active" event after all fonts are loaded.
 
 Example:
 
-    <google-webfont-loader></google-webfont-loader>
+    <google-webfont-loader fonts="Droid Sans, Oswald, Lobster"></google-webfont-loader>
 
 @demo
 -->
-<dom-module id="google-webfont-loader">
+<dom-module id="google-webfont-loader" attributes="fonts">
 
-  <style>
-    :host {
-      display: block;
-      box-sizing: border-box;
-    }
+    <style>
+        :host {
+            display: block;
+            box-sizing: border-box;
+        }
 
-    .author img {
-      float: left;
-      margin-right: 5px;
-      max-height: 100px;
-      max-width: 100px;
-    }
-  </style>
-
-  <template>
-    <h1>&lt;google-webfont-loader&gt;</h1>
-    <content></content>
-    <p class="author">
-      <img src="{{author.image}}">
-      Cheers,<br/>
-      <span class="name">{{author.name}}</span>
-    </p>
-  </template>
+    </style>
 
 </dom-module>
 
 <script>
+    (function() {
 
-  Polymer({
+        var WebFontConfig_ = {};
 
-    is: 'google-webfont-loader',
+        Polymer({
 
-    properties: {
+        is: 'google-webfont-loader',
 
-      /**
-       * `fancy` indicates that the element should don a monocle and tophat,
-       * while checking its pocket watch.
-       */
-      fancy: Boolean,
+        properties: {
 
-      /**
-       * Describes the author of the element, but is really just an excuse to
-       * show off JSDoc annotations.
-       *
-       * @type {{name: string, image: string}}
-       */
-      author: {
-        type: Object,
-        // Use `value` to provides a default value for a property, by setting it
-        // on your element's prototype.
-        //
-        // If you provide a function, as we do here, Polymer will call that
-        // _per element instance_.
-        //
-        // We do that to ensure that each element gets its own copy of the
-        // value, rather than having it shared across all instances (via the
-        // prototype).
-        value: function() {
-          return {
-            name:  'Dimitri Glazkov',
-            image: 'http://addyosmani.com/blog/wp-content/uploads/2013/04/unicorn.jpg',
-          };
+            /**
+             * Fired when all fonts are loaded and available.
+             * @event fonts-active
+             */
+            /**
+             * Fired when particular font is loaded and available.
+             * @event font-active
+             */
+            /**
+             * The `fonts` attribute sets a list of fonts to load
+             *
+             * @attribute fonts
+             * @type Array
+             * @default ['Droid Sans']
+             */
+            fonts: ['Droid Sans'],
+
+
+            /**
+             * Loaded fonts
+             *
+             * @attribute fonts
+             * @type Array
+             */
+            _fonts_loaded: []
+
+        },
+
+        // Element Lifecycle
+
+        ready: function () {
+            // `ready` is called after all elements have been configured, but
+            // propagates bottom-up. This element's children are ready, but parents
+            // are not.
+            //
+            // This is the point where you should make modifications to the DOM (when
+            // necessary), or kick off any processes the element wants to perform.
+
+            console.log('ready to load', this.fonts, this);
+            this._fonts_loaded = [];
+            this.fonts = this.fonts.split(/,[\s]+/);
+
+            console.log('ready', this.fonts);
+
+            WebFontConfig_ = {
+                active: function () {
+                   this.fontsAreActive()
+                }.bind(this),
+                loading: function () {
+                    console.log('WebFont:loading');
+                },
+                fontactive: function (fontactive, fvd) {
+                    this._fonts_loaded.push(fontactive);
+                    console.log('WebFont:fontactive', fontactive);
+                    this.fontIsActive(fontactive);
+                }.bind(this),
+                google: {
+                    families: this.fonts
+                }
+            };
+
+            if (this.fonts.length > 0) {
+                WebFont.load(WebFontConfig_);
+            }
+        },
+
+        attached: function () {
+            // `attached` fires once the element and its parents have been inserted
+            // into a document.
+            //
+            // This is a good place to perform any work related to your element's
+            // visual state or active behavior (measuring sizes, beginning animations,
+            // loading resources, etc).
+        },
+
+        detached: function () {
+            // The analog to `attached`, `detached` fires when the element has been
+            // removed from a document.
+            //
+            // Use this to clean up anything you did in `attached`.
+        },
+
+        /**
+         * Get loaded fonts
+         */
+        getLoadedFonts: function() {
+            return this._fonts_loaded;
+        },
+        /**
+         * check if font is loaded
+         */
+        isFontLoaded: function(font) {
+            this._fonts_loaded.every(function(index, value) {
+                if (font == value) {
+                    return true;
+                }
+            });
+        },
+        // Element Behavior
+        /**
+         * Dispatches an event that font is active
+         */
+        fontIsActive: function(font) {
+            this.fire('font-active', {font: font});
+        },
+        /**
+         * Dispatches an event that font is active
+         */
+        fontsAreActive: function() {
+            console.log('WebFonts: fontsactive', this._fonts_loaded);
+            this.fire('fonts-active', {fonts: this._fonts_loaded});
         }
-      },
+    });
 
-    },
-
-    // Element Lifecycle
-
-    ready: function() {
-      // `ready` is called after all elements have been configured, but
-      // propagates bottom-up. This element's children are ready, but parents
-      // are not.
-      //
-      // This is the point where you should make modifications to the DOM (when
-      // necessary), or kick off any processes the element wants to perform.
-    },
-
-    attached: function() {
-      // `attached` fires once the element and its parents have been inserted
-      // into a document.
-      //
-      // This is a good place to perform any work related to your element's
-      // visual state or active behavior (measuring sizes, beginning animations,
-      // loading resources, etc).
-    },
-
-    detached: function() {
-      // The analog to `attached`, `detached` fires when the element has been
-      // removed from a document.
-      //
-      // Use this to clean up anything you did in `attached`.
-    },
-
-    // Element Behavior
-
-    /**
-     * The `google-webfont-loader-lasers` event is fired whenever `fireLasers` is called.
-     *
-     * @event google-webfont-loader-lasers
-     * @detail {{sound: String}}
-     */
-
-    /**
-     * Sometimes it's just nice to say hi.
-     *
-     * @param {string} greeting A positive greeting.
-     * @return {string} The full greeting.
-     */
-    sayHello: function(greeting) {
-      var response = greeting || 'Hello World!';
-      return 'google-webfont-loader says, ' + response;
-    },
-
-    /**
-     * Attempts to destroy this element's enemies with an any beam of light!
-     *
-     * Or, at least, dispatches an event in the vain hope that someone else will
-     * do the zapping.
-     */
-    fireLasers: function() {
-      this.fire('google-webfont-loader-lasers', {sound: 'Pew pew!'});
-    }
-
-  });
+    })();
 
 </script>
