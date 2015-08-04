@@ -19,7 +19,7 @@ Example:
 
 @demo
 -->
-<dom-module id="google-webfont-loader" attributes="fonts">
+<dom-module id="google-webfont-loader">
 
     <style>
         :host {
@@ -57,7 +57,13 @@ Example:
              * @type Array
              * @default ['Droid Sans']
              */
-            fonts: ['Droid Sans'],
+            fonts: {
+                type: Array,
+                value: function () {
+                    return ['Droid Sans'];
+                },
+                notify: true
+            },
 
 
             /**
