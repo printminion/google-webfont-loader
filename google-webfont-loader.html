@@ -31,7 +31,7 @@ Example:
 
 </dom-module>
 
-<script>
+<script type="application/javascript">
     (function() {
 
         var WebFontConfig_ = {};
@@ -40,31 +40,26 @@ Example:
 
         is: 'google-webfont-loader',
 
-        properties: {
+//        listeners: {
+//            'fonts-active': 'fontsAreActive',
+//            'font-active': 'fontIsActive'
+//        },
 
+        properties: {
             /**
-             * Fired when all fonts are loaded and available.
-             * @event fonts-active
-             */
-            /**
-             * Fired when particular font is loaded and available.
-             * @event font-active
-             */
-            /**
-             * The `fonts` attribute sets a list of fonts to load
+             * The `fonts` attribute sets a list of fonts to load comma separated
              *
              * @attribute fonts
              * @type Array
-             * @default ['Droid Sans']
+             * @default 'Droid Sans'
              */
             fonts: {
-                type: Array,
-                value: function () {
-                    return ['Droid Sans'];
-                },
-                notify: true
-            },
-
+                type: String,
+                value: 'Droid Sans',
+                notify: true,
+                observer: '_fontsChanged'
+            }
+        },
 
             /**
              * Loaded fonts
@@ -72,62 +67,71 @@ Example:
              * @attribute fonts
              * @type Array
              */
-            _fonts_loaded: []
+            _fonts_loaded: [],
+            _fonts_added: [],
 
-        },
+            _fontsChanged: function(newValue, oldValue) {
+                console.log('_fontsChanged', newValue, oldValue);
+
+                this._fonts_added = newValue.split(/,[\s]+/);
+            },
+
+            created: function() {
+                console.log(this.localName + '#' + this.id + ' was created');
+            },
+
+            attached: function() {
+                console.log(this.localName + '#' + this.id + ' was attached');
+                this._init();
+            },
+
+            detached: function() {
+                console.log(this.localName + '#' + this.id + ' was detached');
+            },
+
+            attributeChanged: function(name, type) {
+                console.log(this.localName + '#' + this.id + ' attribute ' + name +
+                        ' was changed to ' + this.getAttribute(name));
+            },
+
 
         // Element Lifecycle
 
-        ready: function () {
-            // `ready` is called after all elements have been configured, but
-            // propagates bottom-up. This element's children are ready, but parents
-            // are not.
-            //
-            // This is the point where you should make modifications to the DOM (when
-            // necessary), or kick off any processes the element wants to perform.
 
-            console.log('ready to load', this.fonts, this);
-            this._fonts_loaded = [];
-            this.fonts = this.fonts.split(/,[\s]+/);
+            ready: function () {
+                console.log(this.localName + '#' + this.id + ' is ready');
+        },
 
-            console.log('ready', this.fonts);
 
-            WebFontConfig_ = {
-                active: function () {
-                   this.fontsAreActive()
-                }.bind(this),
-                loading: function () {
-                    console.log('WebFont:loading');
-                },
-                fontactive: function (fontactive, fvd) {
-                    this._fonts_loaded.push(fontactive);
-                    console.log('WebFont:fontactive', fontactive);
-                    this.fontIsActive(fontactive);
-                }.bind(this),
-                google: {
-                    families: this.fonts
+            _init: function() {
+                // `ready` is called after all elements have been configured, but
+                // propagates bottom-up. This element's children are ready, but parents
+                // are not.
+                //
+                // This is the point where you should make modifications to the DOM (when
+                // necessary), or kick off any processes the element wants to perform.
+
+                console.log('ready to load', this._fonts_added, this);
+
+                WebFontConfig_ = {
+                    active: function () {
+                        this.fontsAreActive()
+                    }.bind(this),
+                    loading: function () {
+                        console.log('WebFont:loading');
+                    },
+                    fontactive: function (fontactive, fvd) {
+                        this._fonts_loaded.push(fontactive);
+                        this.fontIsActive(fontactive);
+                    }.bind(this),
+                    google: {
+                        families: this._fonts_added
+                    }
+                };
+
+                if (this._fonts_added.length > 0) {
+                    WebFont.load(WebFontConfig_);
                 }
-            };
-
-            if (this.fonts.length > 0) {
-                WebFont.load(WebFontConfig_);
-            }
-        },
-
-        attached: function () {
-            // `attached` fires once the element and its parents have been inserted
-            // into a document.
-            //
-            // This is a good place to perform any work related to your element's
-            // visual state or active behavior (measuring sizes, beginning animations,
-            // loading resources, etc).
-        },
-
-        detached: function () {
-            // The analog to `attached`, `detached` fires when the element has been
-            // removed from a document.
-            //
-            // Use this to clean up anything you did in `attached`.
         },
 
         /**
@@ -151,6 +155,7 @@ Example:
          * Dispatches an event that font is active
          */
         fontIsActive: function(font) {
+            console.log('WebFont:fontactive', font);
             this.fire('font-active', {font: font});
         },
         /**
