@@ -17,20 +17,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <link rel="import" href="../google-webfont-loader.html">
 </head>
 <body>
+<style type="text/css">
+    #fonts p {
+        font-size: 1.4em;
+    }
+</style>
 
 <p>An example of <code>&lt;google-webfont-loader&gt;</code>:</p>
 
-<google-webfont-loader fonts="Droid Sans, Oswald, Lobster"></google-webfont-loader>
+<google-webfont-loader fonts="Droid Sans, Bangers, Lobster"></google-webfont-loader>
 
-<p id="Droid-Sans" style="font-family: Droid Sans, sans-serif;">Droid Sans</p>
+<div id="fonts">
 
-<p id="Oswald" style="font-family: Oswald, sans-serif;">Oswald</p>
+<p id="Droid-Sans" style="font-family: Droid Sans, sans-serif;">Droid Sans: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
 
-<p id="Lobster" style="font-family: Lobster, sans-serif;">Lobster</p>
+<p id="Bangers" style="font-family: Bangers, sans-serif;">Oswald: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+
+<p id="Lobster" style="font-family: Lobster, sans-serif;">Lobster: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+</div>
 
 
-<script>
-
+<script type="application/javascript">
+    console.log('adding events');
     document.querySelector('google-webfont-loader').addEventListener('fonts-active', function (e) {
         console.log('fonts-active', e.detail.fonts);
     });
@@ -39,8 +47,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log('font-active', e.detail.font);
         var o = document.querySelector('#' + e.detail.font.replace(/[\s]+/, '-'));
         o.innerHTML = o.innerHTML + ' - font is active';
-
     });
+    console.log('added events');
 </script>
 
 </body>
