@@ -1,0 +1,43 @@
+<!--
+    @license
+    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+    Code distributed by Google as part of the polymer project is also
+    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>google-webfont-loader Demo</title>
+
+  <script src="../webcomponentsjs/webcomponents.min.js"></script>
+  <link rel="import" href="google-webfont-loader.html">
+
+</head>
+<body unresolved>
+
+  <p>An example of using <code>&lt;google-webfont-loader&gt;</code>:</p>
+
+  <google-webfont-loader fonts="Droid Sans, Oswald, Lobster"></google-webfont-loader>
+
+  <p id="Droid-Sans" style="font-family: Droid Sans, sans-serif;">Droid Sans</p>
+  <p id="Oswald" style="font-family: Oswald, sans-serif;">Oswald</p>
+  <p id="Lobster" style="font-family: Lobster, sans-serif;">Lobster</p>
+<script>
+
+    document.querySelector('google-webfont-loader').addEventListener('fonts-active', function(e) {
+        console.log('fonts-active', e.detail.fonts);
+    });
+
+    document.querySelector('google-webfont-loader').addEventListener('font-active', function(e) {
+        console.log('font-active', e.detail.font);
+        var o = document.querySelector('#' + e.detail.font.replace(/[\s]+/, '-'));
+        o.innerHTML = o.innerHTML + ' - font is active';
+
+    });
+</script>
+</body>
+</html>
