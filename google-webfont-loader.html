@@ -34,7 +34,15 @@ Example:
 <script type="application/javascript">
     (function() {
 
+        // Run once. Private and static to the element.
         var WebFontConfig_ = {};
+
+
+        // these variables are shared by all instances of app-globals
+        var values = {
+            fonts_loaded: []
+        };
+
 
         Polymer({
 
@@ -61,13 +69,6 @@ Example:
             }
         },
 
-            /**
-             * Loaded fonts
-             *
-             * @attribute fonts
-             * @type Array
-             */
-            _fonts_loaded: [],
             _fonts_added: [],
 
             _fontsChanged: function(newValue, oldValue) {
@@ -99,6 +100,8 @@ Example:
 
 
             ready: function () {
+                // make global values available on instance.
+                this.values = values;
                 console.log(this.localName + '#' + this.id + ' is ready');
         },
 
@@ -121,7 +124,6 @@ Example:
                         console.log('WebFont:loading');
                     },
                     fontactive: function (fontactive, fvd) {
-                        this._fonts_loaded.push(fontactive);
                         this.fontIsActive(fontactive);
                     }.bind(this),
                     google: {
@@ -138,13 +140,13 @@ Example:
          * Get loaded fonts
          */
         getLoadedFonts: function() {
-            return this._fonts_loaded;
+            return this.values.fonts_loaded;
         },
         /**
          * check if font is loaded
          */
         isFontLoaded: function(font) {
-            this._fonts_loaded.every(function(index, value) {
+            this.values.fonts_loaded.every(function(index, value) {
                 if (font == value) {
                     return true;
                 }
@@ -156,14 +158,15 @@ Example:
          */
         fontIsActive: function(font) {
             console.log('WebFont:fontactive', font);
+            this.values.fonts_loaded.push(font);
             this.fire('font-active', {font: font});
         },
         /**
          * Dispatches an event that font is active
          */
         fontsAreActive: function() {
-            console.log('WebFonts: fontsactive', this._fonts_loaded);
-            this.fire('fonts-active', {fonts: this._fonts_loaded});
+            console.log('WebFonts: fontsactive', this.values.fonts_loaded);
+            this.fire('fonts-active', {fonts: this.values.fonts_loaded});
         }
     });
 
