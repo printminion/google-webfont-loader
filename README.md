@@ -1,12 +1,13 @@
-# google-webfont-loader
+# &lt;google-webfont-loader&gt;
+===============================
 
-See the [component page](http://russenreaktor.github.io/google-webfont-loader) for more information.
+See the [component page](http://printminion.github.io/google-webfont-loader) for more information.
 
 
 ## Getting Started
 Add it via bower
   "dependencies": {
-    "google-webfont-loader": "git@github.com:russenreaktor/google-webfont-loader.git#~0.0.2"
+    "google-webfont-loader": "git@github.com:printminion/google-webfont-loader.git#~1.0.2"
   }
   
 

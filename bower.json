@@ -1,30 +1,33 @@
 {
   "name": "google-webfont-loader",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "authors": [
     "Misha M.-Kupriyanov <m.kupriyanov@gmail.com>"
   ],
-  "description": "Element providing solution for catching google webfonts active (loaded) event",
+  "description": "A polymer element providing solution for catching google webfonts active (loaded) event",
   "keywords": [
-    "web-component",
-    "web-components",
+    "webfonts",
     "polymer",
-    "seed"
+    "web-components",
+    "custom-elements",
+    "polymer-elements"
   ],
   "main": "google-webfont-loader.html",
-  "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/russenreaktor/google-webfont-loader/",
+  "license": "MIT",
+  "homepage": "http://blog.kupriyanov.com/",
   "ignore": [
-    "/.*",
-    "/test/",
-    "/demo/"
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.0.0",
-    "webfontloader": "typekit/webfontloader#~1.6.3"
+    "polymer": "Polymer/polymer#~1.0.0",
+    "webfontloader": "typekit/webfontloader#~1.6.15"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-component-page": "PolymerElements/iron-component-page#~1.0.0",
     "web-component-tester": "*"
   }
 }
