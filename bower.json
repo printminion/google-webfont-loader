@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "webcomponentsjs": "Polymer/webcomponentsjs#^0.7.12",
-    "polymer": "Polymer/polymer#~1.1.12",
+    "polymer": "Polymer/polymer#~1.2.3",
     "webfontloader": "typekit/webfontloader#~1.6.15"
   },
   "devDependencies": {
