@@ -23,11 +23,12 @@
     "tests"
   ],
   "dependencies": {
-    "webcomponentsjs": "Polymer/webcomponentsjs#^0.7.12",
-    "polymer": "Polymer/polymer#~1.2.3",
+    "polymer": "Polymer/polymer#~1.2.1",
     "webfontloader": "typekit/webfontloader#~1.6.15"
   },
   "devDependencies": {
-    "web-component-tester": "*"
+    "web-component-tester": "*",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "iron-component-page": "PolymerElements/iron-component-page#~1.1.1"
   }
 }
