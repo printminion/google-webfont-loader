@@ -1,0 +1,43 @@
+{
+  "name": "google-webfont-loader",
+  "authors": [
+    "Misha M.-Kupriyanov <m.kupriyanov@gmail.com>"
+  ],
+  "description": "A polymer element providing solution for catching google webfonts active (loaded) event",
+  "keywords": [
+    "webfonts",
+    "polymer",
+    "web-components",
+    "custom-elements",
+    "polymer-elements"
+  ],
+  "main": "google-webfont-loader.html",
+  "license": "MIT",
+  "homepage": "http://blog.kupriyanov.com/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.2.1",
+    "webfontloader": "typekit/webfontloader#~1.6.15"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "iron-component-page": "PolymerElements/iron-component-page#~1.1.1"
+  },
+  "_release": "6725a99ea1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "6725a99ea1f64fd3b9b548c010f1c4485abf8f1c"
+  },
+  "_source": "git://github.com/printminion/google-webfont-loader.git",
+  "_target": "master",
+  "_originalSource": "printminion/google-webfont-loader",
+  "_direct": true
+}
