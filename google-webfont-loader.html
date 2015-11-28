@@ -1,86 +1,166 @@
-<!--
-    @license
-    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-    Code distributed by Google as part of the polymer project is also
-    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <link rel="import" href="../polymer/polymer.html">
-<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js"></script>
+<link rel="import" href="webfontloader-import.html">
 
 <!--
-Element providing google font loading functionality and throws an event after all fonts are loaded.
+Element providing google font loading functionality and throws an "fonts-active" event after all fonts are loaded.
 
-##### Example
+Example:
 
-    <google-webfont-loader fonts="Droid Sans,Droid Serif"></google-webfont-loader>
+    <google-webfont-loader fonts="Droid Sans, Oswald, Lobster"></google-webfont-loader>
 
-@element google-webfont-loader
-@blurb Element providing google font loading functionality and throws an event after all fonts are loaded..
-@status alpha
-@homepage http://polymerlabs.github.io/google-webfont-loader
+@demo
 -->
-<polymer-element name="google-webfont-loader" attributes="fonts">
-    <script>
+<dom-module id="google-webfont-loader">
 
-        Polymer('google-webfont-loader', {
+    <style>
+        :host {
+            display: block;
+            box-sizing: border-box;
+        }
 
+    </style>
+
+</dom-module>
+
+<script type="application/javascript">
+    (function() {
+
+        // Run once. Private and static to the element.
+        var WebFontConfig_ = {};
+
+
+        // these variables are shared by all instances of app-globals
+        var values = {
+            fonts_loaded: []
+        };
+
+
+        Polymer({
+
+        is: 'google-webfont-loader',
+
+//        listeners: {
+//            'fonts-active': 'fontsAreActive',
+//            'font-active': 'fontIsActive'
+//        },
+
+        properties: {
             /**
-             * Fired when all fonts are loaded and available.
-             * @event fonts-active
-             */
-            fontsActiveEvent: 'fonts-active',
-
-            /**
-             * Fired when particular font is loaded and available.
-             * @event font-active
-             */
-            fontActiveEvent: 'font-active',
-
-
-            /**
-             * The `fonts` attribute sets a list of fonts to load
+             * The `fonts` attribute sets a list of fonts to load comma separated
              *
              * @attribute fonts
              * @type Array
-             * @default ['Droid Sans']
+             * @default 'Droid Sans'
              */
-            fonts: ['Droid Sans'],
+            fonts: {
+                type: String,
+                value: 'Droid Sans',
+                notify: true,
+                observer: '_fontsChanged'
+            }
+        },
+
+            _fonts_added: [],
+
+            _fontsChanged: function(newValue, oldValue) {
+                console.log('_fontsChanged', newValue, oldValue);
+
+                this._fonts_added = newValue.split(/,[\s]+/);
+            },
+
+            created: function() {
+                console.log(this.localName + '#' + this.id + ' was created');
+            },
+
+            attached: function() {
+                console.log(this.localName + '#' + this.id + ' was attached');
+                this._init();
+            },
+
+            detached: function() {
+                console.log(this.localName + '#' + this.id + ' was detached');
+            },
+
+            attributeChanged: function(name, type) {
+                console.log(this.localName + '#' + this.id + ' attribute ' + name +
+                        ' was changed to ' + this.getAttribute(name));
+            },
+
+
+        // Element Lifecycle
+
 
             ready: function () {
-                console.log('ready', this.fonts, this);
+                // make global values available on instance.
+                this.values = values;
+                console.log(this.localName + '#' + this.id + ' is ready');
+        },
 
-                this.fonts = this.fonts.split(/,[\s]+/);
 
-                console.log('ready', this.fonts);
+            _init: function() {
+                // `ready` is called after all elements have been configured, but
+                // propagates bottom-up. This element's children are ready, but parents
+                // are not.
+                //
+                // This is the point where you should make modifications to the DOM (when
+                // necessary), or kick off any processes the element wants to perform.
 
-                var WebFontConfig = {
+                console.log('ready to load', this._fonts_added, this);
+
+                WebFontConfig_ = {
                     active: function () {
-                        console.log('WebFont', ' active');
-                        this.fontsActive = true;
-                        this.fire(this.fontsActiveEvent, {fonts: this.fonts});
-
+                        this.fontsAreActive()
                     }.bind(this),
                     loading: function () {
-                        console.log('WebFont', 'loading');
+                        console.log('WebFont:loading');
                     },
                     fontactive: function (fontactive, fvd) {
-                        console.log('WebFont', 'fontactive', fontactive);
-                        this.fire(this.fontActiveEvent, {font: fontactive});
+                        this.fontIsActive(fontactive);
                     }.bind(this),
                     google: {
-                        families: this.fonts
+                        families: this._fonts_added
                     }
                 };
 
-                if (this.fonts.length > 0) {
-                    WebFont.load(WebFontConfig);
+                if (this._fonts_added.length > 0) {
+                    WebFont.load(WebFontConfig_);
                 }
-            }
+        },
 
-        });
-    </script>
+        /**
+         * Get loaded fonts
+         */
+        getLoadedFonts: function() {
+            return this.values.fonts_loaded;
+        },
+        /**
+         * check if font is loaded
+         */
+        isFontLoaded: function(font) {
+            this.values.fonts_loaded.every(function(index, value) {
+                if (font == value) {
+                    return true;
+                }
+            });
+        },
+        // Element Behavior
+        /**
+         * Dispatches an event that font is active
+         */
+        fontIsActive: function(font) {
+            console.log('WebFont:fontactive', font);
+            this.values.fonts_loaded.push(font);
+            this.fire('font-active', {font: font});
+        },
+        /**
+         * Dispatches an event that font is active
+         */
+        fontsAreActive: function() {
+            console.log('WebFonts: fontsactive', this.values.fonts_loaded);
+            this.fire('fonts-active', {fonts: this.values.fonts_loaded});
+        }
+    });
 
-</polymer-element>
+    })();
+
+</script>

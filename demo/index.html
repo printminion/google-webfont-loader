@@ -9,28 +9,49 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>google-webfont-loader Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../google-webfont-loader.html">
-  </head>
-  <body>
+</head>
+<body>
+<style type="text/css">
+    #fonts p {
+        font-size: 1.4em;
+    }
+</style>
 
-    <p>An example of <code>&lt;google-webfont-loader&gt;</code>:</p>
+<p>An example of <code>&lt;google-webfont-loader&gt;</code>:</p>
 
-    <button>Say Something</button>
+<google-webfont-loader fonts="Droid Sans, Bangers"></google-webfont-loader>
 
-    <google-webfont-loader author='{"name": "Lord Meowser", "image": "http://placekitten.com/g/200/300"}' fancy>
-      <h2>Hello google-webfont-loader</h2>
-    </google-webfont-loader>
+<google-webfont-loader fonts="Lobster"></google-webfont-loader>
 
-    <script>
-      document.querySelector('button').addEventListener('click', function() {
-        alert(document.querySelector('google-webfont-loader').sayHello('Hallo!'));
-      });
-    </script>
+<div id="fonts">
 
-  </body>
+<p id="Droid-Sans" style="font-family: Droid Sans, sans-serif;">Droid Sans: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+
+<p id="Bangers" style="font-family: Bangers, sans-serif;">Oswald: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+
+<p id="Lobster" style="font-family: Lobster, sans-serif;">Lobster: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+</div>
+
+
+<script type="application/javascript">
+    console.log('adding events');
+    document.querySelector('google-webfont-loader').addEventListener('fonts-active', function (e) {
+        console.log('fonts-active', e.detail.fonts);
+    });
+
+    document.querySelector('google-webfont-loader').addEventListener('font-active', function (e) {
+        console.log('font-active', e.detail.font);
+        var o = document.querySelector('#' + e.detail.font.replace(/[\s]+/, '-'));
+        o.innerHTML = o.innerHTML + ' - font is active';
+    });
+    console.log('added events');
+</script>
+
+</body>
 </html>
