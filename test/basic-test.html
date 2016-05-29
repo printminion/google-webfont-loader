@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <body>
 
 <!-- You can use the document as a place to set up your fixtures. -->
-<google-webfont-loader fonts="Droid Sans, Oswald"></google-webfont-loader>
+<google-webfont-loader fonts="Droid Sans, Oswald, Lobster"></google-webfont-loader>
 
 <script>
     var myEl = document.querySelector('google-webfont-loader');
@@ -30,8 +30,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     suite('<google-webfont-loader>', function () {
 
         test('defines the "fonts" property', function () {
-            assert.equal(myEl.fonts[0], 'Droid Sans');
-            assert.equal(myEl.fonts[1], 'Oswald');
+            var fonts = '' + myEl.fonts;
+            fonts = fonts.split(',');
+
+            assert.equal(fonts[0].trim(), 'Droid Sans');
+            assert.equal(fonts[1].trim(), 'Oswald');
         });
 
 //        test('says hello', function () {

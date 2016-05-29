@@ -57,6 +57,27 @@ Example:
                     value: 'Droid Sans',
                     notify: true,
                     observer: '_fontsChanged'
+                },
+
+                /**
+                 * @attribute fontsToLoadCount
+                 * @type Number
+                 * @default 'Droid Sans'
+                 */
+                fontsToLoadCount: {
+                    type: Number,
+                    value: 0,
+                    notify: true
+                },
+                /**
+                 * @attribute fontsToLoadCount
+                 * @type Number
+                 * @default 'Droid Sans'
+                 */
+                fontsLoadProgress: {
+                    type: Number,
+                    value: 0,
+                    notify: true
                 }
             },
 
@@ -107,6 +128,8 @@ Example:
 
                 console.log('ready to load', this._fonts_added, this);
 
+                this.values.fontsToLoadCount = this._fonts_added.length;
+
                 WebFontConfig_ = {
                     active: function () {
                         this.fontsAreActive()
@@ -149,6 +172,7 @@ Example:
              */
             fontIsActive: function (font) {
                 console.log('WebFont:fontactive', font);
+                this.values.fontsLoadProgress++;
                 this.values.fonts_loaded.push(font);
                 this.fire('font-active', {font: font});
             },

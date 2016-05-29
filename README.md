@@ -7,7 +7,7 @@ See the [component page](http://printminion.github.io/google-webfont-loader) for
 ## Getting Started
 Add it via bower
   "dependencies": {
-    "google-webfont-loader": "git@github.com:printminion/google-webfont-loader.git#~1.0.2"
+    "google-webfont-loader": "git@github.com:printminion/google-webfont-loader.git#~1.6.24"
   }
   
 

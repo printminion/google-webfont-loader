@@ -15,6 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <title>google-webfont-loader Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../google-webfont-loader.html">
+    <link rel="import" href="../../paper-progress/paper-progress.html">
 </head>
 <body>
 <style type="text/css">
@@ -25,15 +26,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <p>An example of <code>&lt;google-webfont-loader&gt;</code>:</p>
 
-<google-webfont-loader fonts="Droid Sans, Bangers"></google-webfont-loader>
+<paper-progress id="progress1" value="0" min="1" max="2"></paper-progress>
+<google-webfont-loader id="loader1" fonts="Droid Sans, Bangers, Pacifico, Fredoka One"></google-webfont-loader>
 
-<google-webfont-loader fonts="Lobster"></google-webfont-loader>
+<paper-progress id="progress2" value="0" min="1" max="1"></paper-progress>
+<google-webfont-loader id="loader2" fonts="Lobster"></google-webfont-loader>
 
 <div id="fonts">
 
 <p id="Droid-Sans" style="font-family: Droid Sans, sans-serif;">Droid Sans: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
 
 <p id="Bangers" style="font-family: Bangers, sans-serif;">Oswald: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+<p id="Pacifico" style="font-family: Pacifico, sans-serif;">Pacifico: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+<p id="Fredoka-One" style="font-family: Fredoka One, sans-serif;">Fredoka One: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
 
 <p id="Lobster" style="font-family: Lobster, sans-serif;">Lobster: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
 </div>
@@ -41,15 +46,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <script type="application/javascript">
     console.log('adding events');
-    document.querySelector('google-webfont-loader').addEventListener('fonts-active', function (e) {
-        console.log('fonts-active', e.detail.fonts);
+    var progress1 = document.querySelector('#progress1');
+    var progress2 = document.querySelector('#progress2');
+    var loader1 = document.querySelector('#loader1');
+    var loader2 = document.querySelector('#loader2');
+
+    progress1.max = loader1.fontsToLoadCount;
+    progress2.max = loader2.fontsToLoadCount;
+
+    loader1.addEventListener('fonts-active', function (e) {
+                console.log('fonts-active', e.detail.fonts);
+                progress1.value = loader1.fontsLoadProgress;
     });
 
-    document.querySelector('google-webfont-loader').addEventListener('font-active', function (e) {
+    loader2.addEventListener('fonts-active', function (e) {
+        console.log('fonts-active', e.detail.fonts);
+        progress2.value = loader2.fontsLoadProgress;
+    });
+
+    loader1.addEventListener('font-active', loadDone);
+    loader2.addEventListener('font-active', loadDone);
+
+    function loadDone(e) {
         console.log('font-active', e.detail.font);
         var o = document.querySelector('#' + e.detail.font.replace(/[\s]+/, '-'));
         o.innerHTML = o.innerHTML + ' - font is active';
-    });
+    }
     console.log('added events');
 </script>
 
