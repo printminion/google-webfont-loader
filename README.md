@@ -1,5 +1,6 @@
 # &lt;google-webfont-loader&gt;
 ===============================
+[![Build Status](https://travis-ci.org/printminion/google-webfont-loader.svg?branch=master)](https://travis-ci.org/printminion/google-webfont-loader)
 
 See the [component page](http://printminion.github.io/google-webfont-loader) for more information.
 
