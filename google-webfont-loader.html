@@ -58,11 +58,21 @@ Example:
                     notify: true,
                     observer: '_fontsChanged'
                 },
+                /**
+                 * @attribute loading
+                 * @type Boolean
+                 * @default false
+                 */
+                loading: {
+                    type: Boolean,
+                    value: false,
+                    notify: true
+                },
 
                 /**
                  * @attribute fontsToLoadCount
                  * @type Number
-                 * @default 'Droid Sans'
+                 * @default 0
                  */
                 fontsToLoadCount: {
                     type: Number,
@@ -70,9 +80,9 @@ Example:
                     notify: true
                 },
                 /**
-                 * @attribute fontsToLoadCount
+                 * @attribute fontsLoadProgress
                  * @type Number
-                 * @default 'Droid Sans'
+                 * @default 0
                  */
                 fontsLoadProgress: {
                     type: Number,
@@ -128,10 +138,13 @@ Example:
 
                 console.log('ready to load', this._fonts_added, this);
 
-                this.values.fontsToLoadCount = this._fonts_added.length;
+                this.properties.fontsToLoadCount = this._fonts_added.length;
+
+                this.properties.loading = true;
 
                 WebFontConfig_ = {
                     active: function () {
+                        this.properties.loading = false;
                         this.fontsAreActive()
                     }.bind(this),
                     loading: function () {
@@ -172,7 +185,7 @@ Example:
              */
             fontIsActive: function (font) {
                 console.log('WebFont:fontactive', font);
-                this.values.fontsLoadProgress++;
+                this.properties.fontsLoadProgress++;
                 this.values.fonts_loaded.push(font);
                 this.fire('font-active', {font: font});
             },
