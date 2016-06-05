@@ -1,13 +1,4 @@
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <html>
 <head>
     <meta charset="utf-8">
@@ -16,6 +7,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../google-webfont-loader.html">
     <link rel="import" href="../../paper-progress/paper-progress.html">
+    <link rel="import" href="../../paper-spinner/paper-spinner.html">
 </head>
 <body>
 <style type="text/css">
@@ -26,46 +18,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <p>An example of <code>&lt;google-webfont-loader&gt;</code>:</p>
 
-<paper-progress id="progress1" value="0" min="1" max="2"></paper-progress>
-<google-webfont-loader id="loader1" fonts="Droid Sans, Bangers, Pacifico, Fredoka One"></google-webfont-loader>
+<paper-spinner active="{{loading}}"></paper-spinner>
 
-<paper-progress id="progress2" value="0" min="1" max="1"></paper-progress>
-<google-webfont-loader id="loader2" fonts="Lobster"></google-webfont-loader>
+<paper-progress id="progress" value="0" min="1" max="2"></paper-progress>
+<google-webfont-loader id="loader1" loading="{{loading}}" fonts="Droid Sans, Bangers, Pacifico, Fredoka One, Lobster"></google-webfont-loader>
 
 <div id="fonts">
-
-<p id="Droid-Sans" style="font-family: Droid Sans, sans-serif;">Droid Sans: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
-
-<p id="Bangers" style="font-family: Bangers, sans-serif;">Oswald: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
-<p id="Pacifico" style="font-family: Pacifico, sans-serif;">Pacifico: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
-<p id="Fredoka-One" style="font-family: Fredoka One, sans-serif;">Fredoka One: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
-
-<p id="Lobster" style="font-family: Lobster, sans-serif;">Lobster: Grumpy wizards make toxic brew for the evil Queen and Jack.</p>
+    <p id="Droid-Sans" style="font-family: Droid Sans, sans-serif;">Droid Sans: Grumpy wizards make toxic brew for the
+        evil Queen and Jack.</p>
+    <p id="Bangers" style="font-family: Bangers, sans-serif;">Oswald: Grumpy wizards make toxic brew for the evil Queen
+        and Jack.</p>
+    <p id="Pacifico" style="font-family: Pacifico, sans-serif;">Pacifico: Grumpy wizards make toxic brew for the evil
+        Queen and Jack.</p>
+    <p id="Fredoka-One" style="font-family: Fredoka One, sans-serif;">Fredoka One: Grumpy wizards make toxic brew for
+        the evil Queen and Jack.</p>
+    <p id="Lobster" style="font-family: Lobster, sans-serif;">Lobster: Grumpy wizards make toxic brew for the evil Queen
+        and Jack.</p>
 </div>
 
 
 <script type="application/javascript">
     console.log('adding events');
-    var progress1 = document.querySelector('#progress1');
-    var progress2 = document.querySelector('#progress2');
-    var loader1 = document.querySelector('#loader1');
-    var loader2 = document.querySelector('#loader2');
-
-    progress1.max = loader1.fontsToLoadCount;
-    progress2.max = loader2.fontsToLoadCount;
-
-    loader1.addEventListener('fonts-active', function (e) {
-                console.log('fonts-active', e.detail.fonts);
-                progress1.value = loader1.fontsLoadProgress;
-    });
-
-    loader2.addEventListener('fonts-active', function (e) {
-        console.log('fonts-active', e.detail.fonts);
-        progress2.value = loader2.fontsLoadProgress;
-    });
-
-    loader1.addEventListener('font-active', loadDone);
-    loader2.addEventListener('font-active', loadDone);
+    var progress, loader, spinner;
 
     function loadDone(e) {
         console.log('font-active', e.detail.font);
@@ -73,6 +47,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         o.innerHTML = o.innerHTML + ' - font is active';
     }
     console.log('added events');
+
+    window.addEventListener('WebComponentsReady', function () {
+        progress = document.querySelector('#progress');
+        loader = document.querySelector('#loader1');
+        spinner = document.querySelector('paper-spinner');
+
+        spinner.active = true;
+
+        progress.max = loader.fontsToLoadCount;
+
+        loader.addEventListener('fonts-active', function (e) {
+            console.log('fonts-active', e.detail.fonts);
+            progress.value = loader.fontsLoadProgress;
+            spinner.active = false;
+        });
+
+        loader.addEventListener('font-active', loadDone);
+
+    });
 </script>
 
 </body>

@@ -6,7 +6,7 @@ Element providing google font loading functionality and throws an "fonts-active"
 
 Example:
 
-    <google-webfont-loader fonts="Droid Sans, Oswald, Lobster"></google-webfont-loader>
+    <google-webfont-loader loading={{loading}} fonts="Droid Sans, Oswald, Lobster"></google-webfont-loader>
 
 @demo
 -->
@@ -77,7 +77,8 @@ Example:
                 fontsToLoadCount: {
                     type: Number,
                     value: 0,
-                    notify: true
+                    notify: true,
+                    readOnly: true
                 },
                 /**
                  * @attribute fontsLoadProgress
@@ -87,29 +88,30 @@ Example:
                 fontsLoadProgress: {
                     type: Number,
                     value: 0,
-                    notify: true
+                    notify: true,
+                    readOnly: true
                 }
             },
 
             _fonts_added: [],
 
             _fontsChanged: function (newValue, oldValue) {
-                console.log('_fontsChanged', newValue, oldValue);
+                //console.log('_fontsChanged', newValue, oldValue);
 
                 this._fonts_added = newValue.split(/,[\s]+/);
             },
 
             created: function () {
-                console.log(this.localName + '#' + this.id + ' was created');
+                //console.log(this.localName + '#' + this.id + ' was created');
             },
 
             attached: function () {
-                console.log(this.localName + '#' + this.id + ' was attached');
+                //console.log(this.localName + '#' + this.id + ' was attached');
                 this._init();
             },
 
             detached: function () {
-                console.log(this.localName + '#' + this.id + ' was detached');
+                //console.log(this.localName + '#' + this.id + ' was detached');
             },
 
             attributeChanged: function (name, type) {
@@ -124,7 +126,7 @@ Example:
             ready: function () {
                 // make global values available on instance.
                 this.values = values;
-                console.log(this.localName + '#' + this.id + ' is ready');
+                //console.log(this.localName + '#' + this.id + ' is ready');
             },
 
 
@@ -136,20 +138,29 @@ Example:
                 // This is the point where you should make modifications to the DOM (when
                 // necessary), or kick off any processes the element wants to perform.
 
-                console.log('ready to load', this._fonts_added, this);
+                console.log('ready to load', this._fonts_added);
 
-                this.properties.fontsToLoadCount = this._fonts_added.length;
-
-                this.properties.loading = true;
+                this.fontsToLoadCount = this._fonts_added.length;
 
                 WebFontConfig_ = {
+                    inactive: function () {
+                        console.log('WebFont:inactive');
+                    }.bind(this),
+                    fontloading: function (familyName, fvd) {
+                        console.log('WebFont:fontloading');
+                    }.bind(this),
+                    fontinactive: function (familyName, fvd) {
+                        console.log('WebFont:fontinactive');
+                    }.bind(this),
                     active: function () {
-                        this.properties.loading = false;
-                        this.fontsAreActive()
+                        console.log('WebFont:active');
+                        this.loading = false;
+                        this.fontsAreActive(this.values.fonts_loaded);
                     }.bind(this),
                     loading: function () {
                         console.log('WebFont:loading');
-                    },
+                        this.loading = true;
+                    }.bind(this),
                     fontactive: function (fontactive, fvd) {
                         this.fontIsActive(fontactive);
                     }.bind(this),
@@ -184,17 +195,17 @@ Example:
              * Dispatches an event that font is active
              */
             fontIsActive: function (font) {
-                console.log('WebFont:fontactive', font);
-                this.properties.fontsLoadProgress++;
+                console.log('WebFont:font-active', font);
+                this.fontsLoadProgress++;
                 this.values.fonts_loaded.push(font);
                 this.fire('font-active', {font: font});
             },
             /**
              * Dispatches an event that font is active
              */
-            fontsAreActive: function () {
-                console.log('WebFonts: fontsactive', this.values.fonts_loaded);
-                this.fire('fonts-active', {fonts: this.values.fonts_loaded});
+            fontsAreActive: function (fonts) {
+                console.log('WebFonts: fonts-active', fonts);
+                this.fire('fonts-active', {fonts: fonts});
             }
         });
 

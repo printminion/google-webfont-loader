@@ -37,14 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             assert.equal(fonts[1].trim(), 'Oswald');
         });
 
-//        test('says hello', function () {
-//            assert.equal(myEl.sayHello(), 'google-webfont-loader says, Hello World!');
-//
-//            var greetings = myEl.sayHello('greetings Earthlings');
-//            assert.equal(greetings, 'google-webfont-loader says, greetings Earthlings');
-//        });
-
-        test('fires fonts active', function (done) {
+        test('fires font-active', function (done) {
             myEl.addEventListener('font-active', function (event) {
                 assert.equal(event.detail.font, 'Lobster');
                 done();
@@ -52,6 +45,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             myEl.fontIsActive('Lobster');
         });
 
+        test('fires fonts-active', function (done) {
+            myEl.addEventListener('fonts-active', function (event) {
+                console.log('fonts-active', event.detail);
+                assert.deepEqual(event.detail.fonts, ['Droid Sans', 'Oswald', 'Lobster']);
+                done();
+            });
+            myEl.fontsAreActive(['Droid Sans', 'Oswald', 'Lobster']);
+        });
     });
 </script>
 
