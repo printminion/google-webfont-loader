@@ -1,6 +1,6 @@
 {
   "name": "google-webfont-loader",
-  "version": "1.6.24",
+  "version": "1.6.27",
   "authors": [
     "Misha M.-Kupriyanov <m.kupriyanov@gmail.com>"
   ],
@@ -23,7 +23,7 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~1.4.0",
+    "polymer": "Polymer/polymer#~1.8.0",
     "webfontloader": "typekit/webfontloader#~1.6.27"
   },
   "devDependencies": {

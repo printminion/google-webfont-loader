@@ -30,11 +30,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     suite('<google-webfont-loader>', function () {
 
         test('defines the "fonts" property', function () {
-            var fonts = '' + myEl.fonts;
-            fonts = fonts.split(',');
-
-            assert.equal(fonts[0].trim(), 'Droid Sans');
-            assert.equal(fonts[1].trim(), 'Oswald');
+            assert.equal(myEl._fonts_added[0], 'Droid Sans');
+            assert.equal(myEl._fonts_added[1], 'Oswald');
         });
 
         test('fires font-active', function (done) {
