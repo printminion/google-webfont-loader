@@ -1,6 +1,6 @@
 {
   "name": "google-webfont-loader",
-  "version": "1.0.2",
+  "version": "1.6.27",
   "authors": [
     "Misha M.-Kupriyanov <m.kupriyanov@gmail.com>"
   ],
@@ -23,12 +23,14 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~1.2.1",
-    "webfontloader": "typekit/webfontloader#~1.6.15"
+    "polymer": "Polymer/polymer#~1.8.0",
+    "webfontloader": "typekit/webfontloader#~1.6.27"
   },
   "devDependencies": {
     "web-component-tester": "*",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
-    "iron-component-page": "PolymerElements/iron-component-page#~1.1.1"
+    "iron-component-page": "PolymerElements/iron-component-page#~1.1.1",
+    "paper-progress": "PolymerElements/paper-progress#~1.0.9",
+    "paper-spinner": "PolymerElements/paper-spinner#^1.2.0"
   }
 }
