@@ -1,6 +1,7 @@
 # &lt;google-webfont-loader&gt;
 ===============================
 [![Build Status](https://travis-ci.org/printminion/google-webfont-loader.svg?branch=master)](https://travis-ci.org/printminion/google-webfont-loader)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/printminion/google-webfont-loader)
 
 See the [component page](http://printminion.github.io/google-webfont-loader) for more information.
 
@@ -13,7 +14,37 @@ Add it via bower
   
 
 ## Using
+ 
+ ## Usage
+ 
+ <!--
+ ```
+ <custom-element-demo>
+   <template>
+     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+     <link rel="import" href="google-webfont-loader.html">
+      <google-webfont-loader id="loader1" loading="{{loading}}" fonts="Droid Sans, Bangers, Pacifico, Fredoka One, Lobster"></google-webfont-loader>
+
+    <div id="fonts">
+        <p id="Droid-Sans" style="font-family: Droid Sans, sans-serif;">Droid Sans: Grumpy wizards make toxic brew for the
+            evil Queen and Jack.</p>
+        <p id="Bangers" style="font-family: Bangers, sans-serif;">Oswald: Grumpy wizards make toxic brew for the evil Queen
+            and Jack.</p>
+        <p id="Pacifico" style="font-family: Pacifico, sans-serif;">Pacifico: Grumpy wizards make toxic brew for the evil
+            Queen and Jack.</p>
+        <p id="Fredoka-One" style="font-family: Fredoka One, sans-serif;">Fredoka One: Grumpy wizards make toxic brew for
+            the evil Queen and Jack.</p>
+        <p id="Lobster" style="font-family: Lobster, sans-serif;">Lobster: Grumpy wizards make toxic brew for the evil Queen
+            and Jack.</p>
+    </div>
+   </template>
+ </custom-element-demo>
+ ```
+ -->
+ ```html
  <google-webfont-loader fonts="Droid Sans,Droid Serif"></google-webfont-loader>
+ ```
+
 
     document.querySelector('google-webfont-loader').addEventListener('fonts-active', function(e) {
         console.log('fonts-active', e.detail.fonts);
