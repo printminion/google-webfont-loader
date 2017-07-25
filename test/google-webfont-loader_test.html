@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>google-webfont-loader test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../google-webfont-loader.html">
+</head>
+<body>
+
+<test-fixture id="BasicTestFixture">
+    <template>
+        <google-webfont-loader fonts="Droid Sans, Oswald"></google-webfont-loader>
+    </template>
+</test-fixture>
+
+<test-fixture id="ChangedPropertyTestFixture">
+    <template>
+        <google-webfont-loader fonts="Droid Sans, Oswald"></google-webfont-loader>
+    </template>
+</test-fixture>
+
+<script>
+    suite('google-webfont-loader', function () {
+
+
+        test('defines the "fonts" property', function () {
+            var element = fixture('BasicTestFixture');
+            console.log('_fonts_added', element._fonts_added[0]);
+            assert.equal(element._fonts_added[0], 'Droid Sans');
+            assert.equal(element._fonts_added[1], 'Oswald');
+        });
+
+        test('fires fonts active', function (done) {
+            var element = fixture('ChangedPropertyTestFixture');
+            element.addEventListener('font-active', function (event) {
+                assert.equal(event.detail.font, 'Lobster');
+                done();
+            });
+            element.fontIsActive('Lobster');
+        });
+
+    });
+</script>
+
+</body>
+</html>
